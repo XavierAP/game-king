@@ -1,0 +1,9 @@
+.dub/
+.vscode/
+img/
+game-king
+*.exe
+*.dll
+*.o
+*.obj
+*.lst
