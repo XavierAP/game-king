@@ -10,7 +10,6 @@ import std.string: toStringz;
 
 alias XY = SDL_Point; /// Pair or vector representing XY coordinates; or width x length.
 static assert(XY.init == XY(0,0));
-alias coord = int; /// Coordinate type.
 
 /// RAII self-destructing SDL texture.
 struct Texture

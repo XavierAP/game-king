@@ -29,10 +29,11 @@ void main()
 	}
 
 	// Create the main window and renderer:
+	XY winSize = { 800, 600 };
 	SDL_Window* winMain = SDL_CreateWindow(appTitle,
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		800, 600,
-		0);
+		winSize.x, winSize.y,
+		SDL_WINDOW_RESIZABLE);
 	scope(exit) SDL_DestroyWindow(winMain);
 	SDL_Renderer* render = SDL_CreateRenderer(winMain, -1, 0);
 	scope(exit) SDL_DestroyRenderer(render);
@@ -71,11 +72,22 @@ void main()
 				
 				case SDL_KEYDOWN:
 					update = true;
-					XY udelta = input.key.toMoveMap,
+					const XY
+						udelta = input.key.toMoveMap,
 						delta = udelta.toGfx;
 					rect.shift(delta);
 					break;
 
+				case SDL_WINDOWEVENT:
+					update = true;
+					// Re-center the image:
+					int w, h;
+					SDL_GetWindowSize(winMain, &w, &h);
+					rect.x += (w - winSize.x) / 2;
+					rect.y += (h - winSize.y) / 2;
+					winSize = XY(w, h);
+					break;
+				
 				default: break;
 			}
 		}
