@@ -48,10 +48,15 @@ void main()
 	rect.y = (rect.y - rect.h) / 2;
 
 	// Main loop:
+	bool update = true; // whether refresh needed
 	do
 	{
-		SDL_RenderClear(render);
-		SDL_RenderCopy(render, texPlayer, null, &rect);
+		if(update)
+		{
+			SDL_RenderClear(render);
+			SDL_RenderCopy(render, texPlayer, null, &rect);
+			update = false;
+		}
 
 		// Scene!
 		SDL_RenderPresent(render);
@@ -65,6 +70,7 @@ void main()
 				case SDL_QUIT: return;
 				
 				case SDL_KEYDOWN:
+					update = true;
 					XY udelta = input.key.toMoveMap,
 						delta = udelta.toGfx;
 					rect.shift(delta);
