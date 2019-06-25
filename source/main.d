@@ -42,7 +42,7 @@ void main()
 	SDL_SetRenderDrawColor(render, 0x80, 0xA0, 0x60, 0xFF);
 
 	// Create the player icon starting at the center of the window:
-	auto texPlayer = Texture(dirImages ~ "Hero.png", render);
+	auto texPlayer = TextureClipbook(dirImages ~ "People.png", render, 2, 1);
 	SDL_Rect rect = { w: mapTileSize, h: mapTileSize };
 	SDL_GetWindowSize(winMain, &rect.x, &rect.y);
 	rect.x = (rect.x - rect.w) / 2;
@@ -55,7 +55,7 @@ void main()
 		if(update)
 		{
 			SDL_RenderClear(render);
-			SDL_RenderCopy(render, texPlayer, null, &rect);
+			SDL_RenderCopy(render, texPlayer, texPlayer.clip(0,0), &rect);
 			update = false;
 		}
 
