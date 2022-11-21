@@ -5,19 +5,14 @@ module main;
 
 import config;
 import geo;
+import sdl_load;
 import textures;
 
 void main()
 {
-	// Initialize SDL lib:
-	DerelictSDL2.load();
-	SDL_Init(SDL_INIT_VIDEO)
-	.trySDL(0, "initializing SDL", true);
-	scope(exit) SDL_Quit();
+	auto libSDL = loadLibSDL();
+	auto libSDLImage = loadLibSDLImage();
 
-	// Initialize SDL_image lib:
-	DerelictSDL2Image.load();
-	scope(exit) IMG_Quit();
 	{
 		enum flagsLibImgNeed = IMG_INIT_PNG;
 		auto flagsLibImgHave =
