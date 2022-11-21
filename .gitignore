@@ -4,6 +4,7 @@ img/
 game-king
 *.exe
 *.dll
+*.pdb
 *.o
 *.obj
 *.lst

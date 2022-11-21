@@ -4,10 +4,8 @@ Game entry point and main processing loop.
 module main;
 
 import config;
-import derelict.sdl2.image;
 import geo;
-import sdl_help;
-import std.string: toStringz;
+import textures;
 
 void main()
 {
