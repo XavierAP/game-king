@@ -10,13 +10,19 @@ ScopeCleanup loadLibSDL()
 {
 	DerelictSDL2.load();
 	SDL_Init(SDL_INIT_VIDEO)
-	.trySDL(0, "initializing SDL", true);
+		.trySDL(0, "initializing SDL", true);
 	return ScopeCleanup(wrapAsFunction!SDL_Quit);
 }
 
 /// Loads the SDL_image library and returns a RAII object that cleans up the library when destructed.
-ScopeCleanup loadLibSDLImage()
+ScopeCleanup loadLibSDLImage(int IMG_INIT_enum)
 {
 	DerelictSDL2Image.load();
+
+	alias requestedFlags = IMG_INIT_enum;
+	auto supportedFlags = IMG_Init(IMG_INIT_enum);
+	trySDL(supportedFlags & requestedFlags, requestedFlags,
+		"initializing image file load engine", true);
+	
 	return ScopeCleanup(wrapAsFunction!IMG_Quit);
 }

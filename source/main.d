@@ -11,15 +11,7 @@ import textures;
 void main()
 {
 	auto libSDL = loadLibSDL();
-	auto libSDLImage = loadLibSDLImage();
-
-	{
-		enum flagsLibImgNeed = IMG_INIT_PNG;
-		auto flagsLibImgHave =
-		IMG_Init(flagsLibImgNeed);
-		trySDL(flagsLibImgHave & flagsLibImgNeed, flagsLibImgNeed,
-			"initializing image file load engine", true);
-	}
+	auto libSDLImage = loadLibSDLImage(IMG_INIT_PNG);
 
 	// Create the main window and renderer:
 	XY winSize = { 800, 600 };
