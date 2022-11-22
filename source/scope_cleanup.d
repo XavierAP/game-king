@@ -9,3 +9,6 @@ struct ScopeCleanup
 
 	private void function() cleanup;
 }
+
+/// Enables assigning e.g. extern(C) functions to D function pointer variables.
+auto wrapAsFunction(alias f)() { return function void() { f(); }; }
