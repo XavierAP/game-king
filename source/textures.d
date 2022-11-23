@@ -16,15 +16,16 @@ struct Texture
 	Params:
 	throw_log = Whether to throw (true) or just log (false)
 		when the file cannot be loaded into a SDL_Texture.
-		See trySDL.
+		See expectFromSDL.
 	*/
 	this(string filename, SDL_Renderer* render, bool throw_log = false)
 	{
 		SDL_Surface* surf = IMG_Load(filename.toStringz);
-		trySDL(surf != null, "loading image file " ~ filename, throw_log);
+		expectFromSDL(surf != null, "loading image file " ~ filename, throw_log);
 		ptr = SDL_CreateTextureFromSurface(render, surf);
 		SDL_FreeSurface(surf);
-		trySDL(ptr != null || surf == null, "creating texture from file " ~ filename, throw_log); // don't repeat a 2nd error message if a 1st one was already logged.
+		expectFromSDL(ptr != null || surf == null, // don't repeat a 2nd error message if a 1st one was already logged.
+			"creating texture from file " ~ filename, throw_log);
 	}
 
 	@disable this();

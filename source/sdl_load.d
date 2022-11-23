@@ -10,7 +10,7 @@ ScopeCleanup loadLibSDL()
 {
 	DerelictSDL2.load();
 	SDL_Init(SDL_INIT_VIDEO)
-		.trySDL(0, "initializing SDL", true);
+		.expectFromSDLEqual(0, "initializing SDL", true);
 	return ScopeCleanup(wrapAsFunction!SDL_Quit);
 }
 
@@ -21,7 +21,7 @@ ScopeCleanup loadLibSDLImage(int IMG_INIT_enum)
 
 	alias requestedFlags = IMG_INIT_enum;
 	auto supportedFlags = IMG_Init(IMG_INIT_enum);
-	trySDL(supportedFlags & requestedFlags, requestedFlags,
+	expectFromSDLEqual(supportedFlags & requestedFlags, requestedFlags,
 		"initializing image file load engine", true);
 	
 	return ScopeCleanup(wrapAsFunction!IMG_Quit);

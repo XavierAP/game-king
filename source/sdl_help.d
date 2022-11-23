@@ -36,7 +36,7 @@ throw_log = If true and the check was not OK,
 	the error is thrown as an Exception.
 	If false, the error is only logged.
 */
-void trySDL(bool ans, string doing, bool throw_log = false,
+void expectFromSDL(bool ans, string doing, bool throw_log = false,
 	string func = __FUNCTION__, size_t line = __LINE__)
 {
 	if(!ans)
@@ -67,8 +67,8 @@ throw_log = If true and the check was not OK,
 	the error is thrown as an Exception.
 	If false, the error is only logged.
 */
-void trySDL(T)(T ans, T ok, string doing, bool throw_log = false,
+void expectFromSDLEqual(T)(T ans, T ok, string doing, bool throw_log = false,
 	string func = __FUNCTION__, size_t line = __LINE__)
 {
-	trySDL(ans == ok, doing, throw_log, func, line);
+	expectFromSDL(ans == ok, doing, throw_log, func, line);
 }

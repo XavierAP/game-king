@@ -22,7 +22,7 @@ void main()
 	scope(exit) SDL_DestroyWindow(winMain);
 	SDL_Renderer* render = SDL_CreateRenderer(winMain, -1, 0);
 	scope(exit) SDL_DestroyRenderer(render);
-	trySDL(winMain != null && render != null, "creating main window", true);
+	expectFromSDL(winMain != null && render != null, "creating main window", true);
 	// Background color:
 	SDL_SetRenderDrawColor(render, 0x80, 0xA0, 0x60, 0xFF);
 
