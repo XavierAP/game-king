@@ -3,7 +3,7 @@ Helper functions and types for the SDL library.
 */
 module sdl_help;
 
-public import derelict.sdl2.sdl;
+public import bindbc.sdl;
 
 import std.string: toStringz;
 
@@ -36,7 +36,7 @@ throw_log = If true and the check was not OK,
 	the error is thrown as an Exception.
 	If false, the error is only logged.
 */
-void expectFromSDL(bool ans, string doing, bool throw_log = false,
+void expect(bool ans, string doing, bool throw_log = false,
 	string func = __FUNCTION__, size_t line = __LINE__)
 {
 	if(!ans)
@@ -67,8 +67,8 @@ throw_log = If true and the check was not OK,
 	the error is thrown as an Exception.
 	If false, the error is only logged.
 */
-void expectFromSDLEqual(T)(T ans, T ok, string doing, bool throw_log = false,
+void expectEqual(T)(T ans, T ok, string doing, bool throw_log = false,
 	string func = __FUNCTION__, size_t line = __LINE__)
 {
-	expectFromSDL(ans == ok, doing, throw_log, func, line);
+	expect(ans == ok, doing, throw_log, func, line);
 }

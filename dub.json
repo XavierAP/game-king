@@ -1,12 +1,13 @@
 {
-	"name": "game-king",
 	"authors": [
 		"XavierAP"
 	],
-	"dependencies": {
-		"derelict-sdl2": "~>2.1.4"
-	},
-	"description": "Strategy game embryo",
 	"copyright": "Copyright © 2019, XavierAP",
-	"license": "https://www.gnu.org/licenses/gpl.html"
+	"dependencies": {
+		"bindbc-sdl": "~>1.2.3"
+	},
+	"versions": [ "SDL_Image" ],
+	"description": "Strategy game embryo",
+	"license": "https://www.gnu.org/licenses/gpl.html",
+	"name": "game-king"
 }

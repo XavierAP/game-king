@@ -1,7 +1,7 @@
 module textures;
 
 public import sdl_help;
-public import derelict.sdl2.image;
+public import bindbc.sdl.image;
 
 import std.exception: enforce;
 import std.string: toStringz;
@@ -16,15 +16,15 @@ struct Texture
 	Params:
 	throw_log = Whether to throw (true) or just log (false)
 		when the file cannot be loaded into a SDL_Texture.
-		See expectFromSDL.
+		See sdl_help.expect.
 	*/
 	this(string filename, SDL_Renderer* render, bool throw_log = false)
 	{
 		SDL_Surface* surf = IMG_Load(filename.toStringz);
-		expectFromSDL(surf != null, "loading image file " ~ filename, throw_log);
+		expect(surf != null, "loading image file " ~ filename, throw_log);
 		ptr = SDL_CreateTextureFromSurface(render, surf);
 		SDL_FreeSurface(surf);
-		expectFromSDL(ptr != null || surf == null, // don't repeat a 2nd error message if a 1st one was already logged.
+		expect(ptr != null || surf == null, // don't repeat a 2nd error message if a 1st one was already logged.
 			"creating texture from file " ~ filename, throw_log);
 	}
 
