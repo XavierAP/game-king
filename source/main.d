@@ -7,29 +7,24 @@ import config;
 import geo;
 import sdl_help;
 import textures;
+import windows;
 
 void main()
 {
 	loadSDL().expectEqual(sdlSupport, "initializing SDL", true);
 	loadSDLImage().expectEqual(sdlImageSupport, "initializing SDL_image library", true);
 
-	// Create the main window and renderer:
 	XY winSize = { 800, 600 };
-	SDL_Window* winMain = SDL_CreateWindow(appTitle,
-		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		winSize.x, winSize.y,
-		SDL_WINDOW_RESIZABLE);
-	scope(exit) SDL_DestroyWindow(winMain);
-	SDL_Renderer* render = SDL_CreateRenderer(winMain, -1, 0);
-	scope(exit) SDL_DestroyRenderer(render);
-	expect(winMain != null && render != null, "creating main window", true);
+
+	auto winMain = Window(appTitle, SDL_WINDOW_RESIZABLE, winSize);
+	
 	// Background color:
-	SDL_SetRenderDrawColor(render, 0x80, 0xA0, 0x60, 0xFF);
+	SDL_SetRenderDrawColor(winMain.renderer, 0x80, 0xA0, 0x60, 0xFF);
 
 	// Create the player icon starting at the center of the window:
-	auto texPlayer = TextureClipbook(dirImages ~ "People.png", render, 2, 1);
+	auto texPlayer = TextureClipbook(dirImages ~ "People.png", winMain.renderer, 2, 1);
 	SDL_Rect rect = { w: mapTileSize, h: mapTileSize };
-	SDL_GetWindowSize(winMain, &rect.x, &rect.y);
+	SDL_GetWindowSize(winMain.window, &rect.x, &rect.y);
 	rect.x = (rect.x - rect.w) / 2;
 	rect.y = (rect.y - rect.h) / 2;
 
@@ -39,13 +34,13 @@ void main()
 	{
 		if(update)
 		{
-			SDL_RenderClear(render);
-			SDL_RenderCopy(render, texPlayer, texPlayer.clip(0,0), &rect);
+			SDL_RenderClear(winMain.renderer);
+			SDL_RenderCopy(winMain.renderer, texPlayer, texPlayer.clip(0,0), &rect);
 			update = false;
 		}
 
 		// Scene!
-		SDL_RenderPresent(render);
+		SDL_RenderPresent(winMain.renderer);
 
 		// Process input:
 		SDL_Event input;
@@ -67,7 +62,7 @@ void main()
 					update = true;
 					// Re-center the image:
 					int w, h;
-					SDL_GetWindowSize(winMain, &w, &h);
+					SDL_GetWindowSize(winMain.window, &w, &h);
 					rect.x += (w - winSize.x) / 2;
 					rect.y += (h - winSize.y) / 2;
 					winSize = XY(w, h);

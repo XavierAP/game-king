@@ -7,24 +7,6 @@ public import bindbc.sdl;
 
 import std.string: toStringz;
 
-alias XY = SDL_Point; /// Pair or vector representing XY coordinates; or width x length.
-static assert(XY.init == XY(0,0));
-
-pure
-{
-
-/// Translation in 2D; mutates the caller
-/// and also returns it (for method chaining).
-ref T shift(T)(return ref T moving, const ref XY delta)
-	if(is(T : SDL_Point) || is(T : SDL_Rect))
-{
-	moving.x += delta.x;
-	moving.y += delta.y;
-	return moving;
-}
-
-} // impure:
-
 /**
 Helper function that checks a boolean
 (typically from an SDL call)

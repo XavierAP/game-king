@@ -4,8 +4,10 @@ Functions and types related to the game map and locations.
 module geo;
 pure:
 
+import bindbc.sdl;
+
 import config;
-import sdl_help;
+public import xy;
 
 /// Translates from map to screen coordinates.
 XY toGfx(const ref XY tiles)

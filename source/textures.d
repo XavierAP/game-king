@@ -3,6 +3,8 @@ module textures;
 public import sdl_help;
 public import bindbc.sdl.image;
 
+import properties;
+
 import std.exception: enforce;
 import std.string: toStringz;
 
@@ -11,6 +13,10 @@ pure:
 /// RAII self-destructing SDL texture.
 struct Texture
 {
+	private SDL_Texture* _sdl; mixin propertyGet!_sdl;
+	alias sdl this; // so I can pass it directly to the SDL API
+
+	@disable this();
 	/**
 	Creates a Texture by loading an image file.
 	Params:
@@ -22,33 +28,23 @@ struct Texture
 	{
 		SDL_Surface* surf = IMG_Load(filename.toStringz);
 		expect(surf != null, "loading image file " ~ filename, throw_log);
-		ptr = SDL_CreateTextureFromSurface(render, surf);
+		_sdl = SDL_CreateTextureFromSurface(render, surf);
 		SDL_FreeSurface(surf);
-		expect(ptr != null || surf == null, // don't repeat a 2nd error message if a 1st one was already logged.
+		expect(_sdl != null || surf == null, // don't repeat a 2nd error message if a 1st one was already logged.
 			"creating texture from file " ~ filename, throw_log);
 	}
 
-	@disable this();
-
-	~this() { SDL_DestroyTexture(ptr); }
-	
-	/// Internal SDL C API pointer.
-	SDL_Texture* sdl() { return ptr; }
-	alias sdl this; // so I can pass it directly to the SDL API
-
-	private SDL_Texture* ptr; /// Internal SDL C API pointer.
+	~this() { SDL_DestroyTexture(_sdl); }
 }
 
 /// Texture that contains several images i.e. a sprite sheet.
 struct TextureClipbook
 {
-	/// SDL C API pointer.
+	private Texture _tex;
 	SDL_Texture* sdl() { return _tex.sdl; }
 	alias sdl this;
 
-	private Texture _tex;
 	@disable this();
-
 	/**
 	Creates a Texture by loading an image file
 	and clips it into sprites.
