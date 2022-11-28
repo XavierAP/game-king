@@ -29,14 +29,14 @@ void main()
 	rect.y = (rect.y - rect.h) / 2;
 
 	// Main loop:
-	bool update = true; // whether refresh needed
+	bool isRefreshNeeded = true;
 	do
 	{
-		if(update)
+		if(isRefreshNeeded)
 		{
 			SDL_RenderClear(mainWindow.renderer);
 			SDL_RenderCopy(mainWindow.renderer, texPlayer, texPlayer.clip(0,0), &rect);
-			update = false;
+			isRefreshNeeded = false;
 		}
 
 		// Scene!
@@ -51,7 +51,7 @@ void main()
 				case SDL_QUIT: return;
 				
 				case SDL_KEYDOWN:
-					update = true;
+					isRefreshNeeded = true;
 					const XY
 						udelta = input.key.toMoveMap,
 						delta = udelta.toGfx;
@@ -59,7 +59,7 @@ void main()
 					break;
 
 				case SDL_WINDOWEVENT:
-					update = true;
+					isRefreshNeeded = true;
 					// Re-center the image:
 					int w, h;
 					SDL_GetWindowSize(mainWindow.window, &w, &h);
