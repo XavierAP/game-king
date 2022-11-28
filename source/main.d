@@ -16,15 +16,15 @@ void main()
 
 	XY winSize = { 800, 600 };
 
-	auto winMain = Window(appTitle, SDL_WINDOW_RESIZABLE, winSize);
+	auto mainWindow = createWindow(appTitle, SDL_WINDOW_RESIZABLE, winSize);
 	
 	// Background color:
-	SDL_SetRenderDrawColor(winMain.renderer, 0x80, 0xA0, 0x60, 0xFF);
+	SDL_SetRenderDrawColor(mainWindow.renderer, 0x80, 0xA0, 0x60, 0xFF);
 
 	// Create the player icon starting at the center of the window:
-	auto texPlayer = TextureClipbook(dirImages ~ "People.png", winMain.renderer, 2, 1);
+	auto texPlayer = TextureClipbook(dirImages ~ "People.png", mainWindow.renderer, 2, 1);
 	SDL_Rect rect = { w: mapTileSize, h: mapTileSize };
-	SDL_GetWindowSize(winMain.window, &rect.x, &rect.y);
+	SDL_GetWindowSize(mainWindow.window, &rect.x, &rect.y);
 	rect.x = (rect.x - rect.w) / 2;
 	rect.y = (rect.y - rect.h) / 2;
 
@@ -34,13 +34,13 @@ void main()
 	{
 		if(update)
 		{
-			SDL_RenderClear(winMain.renderer);
-			SDL_RenderCopy(winMain.renderer, texPlayer, texPlayer.clip(0,0), &rect);
+			SDL_RenderClear(mainWindow.renderer);
+			SDL_RenderCopy(mainWindow.renderer, texPlayer, texPlayer.clip(0,0), &rect);
 			update = false;
 		}
 
 		// Scene!
-		SDL_RenderPresent(winMain.renderer);
+		SDL_RenderPresent(mainWindow.renderer);
 
 		// Process input:
 		SDL_Event input;
@@ -62,7 +62,7 @@ void main()
 					update = true;
 					// Re-center the image:
 					int w, h;
-					SDL_GetWindowSize(winMain.window, &w, &h);
+					SDL_GetWindowSize(mainWindow.window, &w, &h);
 					rect.x += (w - winSize.x) / 2;
 					rect.y += (h - winSize.y) / 2;
 					winSize = XY(w, h);

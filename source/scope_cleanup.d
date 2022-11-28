@@ -4,11 +4,15 @@ module scope_cleanup;
 struct ScopeCleanup
 {
 	@disable this();
-	this(void function() cleanup) { this.cleanup = cleanup; }
+	@disable this(this);
+
+	this(void delegate() cleanup) { this.cleanup = cleanup; }
+	
 	~this() { cleanup(); }
 
-	private void function() cleanup;
+	private void delegate() cleanup;
 }
 
-/// Enables assigning e.g. extern(C) functions to D function pointer variables.
-auto wrapAsFunction(alias f)() { return function void() { f(); }; }
+/// Enables assigning e.g. extern(C) functions to D delgate variables
+/// and discards any return value.
+auto wrapAsVoidDelegate(alias f)() { return delegate void() { f(); }; }

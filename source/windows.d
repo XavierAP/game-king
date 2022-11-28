@@ -1,26 +1,26 @@
 module windows;
 
+import scope_cleanup;
 import sdl_help;
-import properties;
 import xy;
 
-struct Window
+WindowResources createWindow(string title, SDL_WindowFlags flags, XY size,
+	XY position = XY(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED))
 {
-	private SDL_Window* _window; mixin propertyGet!_window;
-	private SDL_Renderer* _renderer; mixin propertyGet!_renderer;
+	auto window = SDL_CreateWindow(title.ptr, position.x, position.y, size.x, size.y, flags);
+	auto renderer = SDL_CreateRenderer(window, -1, 0);
+	expect(window != null && renderer != null, "creating window "~title, true);
 
-	@disable this();
-	this(string title, SDL_WindowFlags flags, XY size,
-		XY position = XY(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED))
+	return WindowResources(window, renderer, ScopeCleanup(delegate void()
 	{
-		_window = SDL_CreateWindow(title.ptr, position.x, position.y, size.x, size.y, flags);
-		_renderer = SDL_CreateRenderer(_window, -1, 0);
-		expect(_window != null && _renderer != null, "creating window "~title, true);
-	}
+		SDL_DestroyWindow(window);
+		SDL_DestroyRenderer(renderer);
+	}));
+}
 
-	~this()
-	{
-		SDL_DestroyWindow(_window);
-		SDL_DestroyRenderer(_renderer);
-	}
+struct WindowResources
+{
+	SDL_Window* window;
+	SDL_Renderer* renderer;
+	private ScopeCleanup _;
 }
