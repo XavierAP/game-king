@@ -8,7 +8,7 @@ import xy;
 
 import std.exception: enforce;
 
-auto loadTexture(string filename, SDL_Renderer* render, bool throw_log = false)
+TextureResources loadTexture(string filename, SDL_Renderer* render, bool throw_log = false)
 {
 	auto surf = IMG_Load(filename.toStringz);
 	expect(surf != null, "loading image file " ~ filename, throw_log);
@@ -31,9 +31,9 @@ struct TextureResources
 
 /// Calculates how to split a texture columns and rows
 /// and returns the resulting rectangle at the top left.
-auto clipTexture(SDL_Texture* texture, ushort ncols, ushort nrows)
+Rectangle clipTexture(SDL_Texture* texture, ushort ncols, ushort nrows)
 {
-	SDL_Rect clip;
+	Rectangle clip;
 	SDL_QueryTexture(texture, null, null, &clip.w, &clip.h);
 	clip.w /= ncols;
 	clip.w /= nrows;

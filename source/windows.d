@@ -17,10 +17,16 @@ WindowResources createWindow(string title, SDL_WindowFlags flags, XY size,
 		SDL_DestroyRenderer(render);
 	}));
 }
-
 struct WindowResources
 {
 	SDL_Window* window;
 	SDL_Renderer* render;
 	private ScopeCleanup _;
+}
+
+XY getWindowSize(ref WindowResources window)
+{
+	XY size;
+	SDL_GetWindowSize(window.window, &size.x, &size.y);
+	return size;
 }

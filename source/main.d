@@ -14,17 +14,13 @@ void main()
 	auto libSDL = loadLibSDL();
 	auto libSDLImage = loadLibSDLImage();
 
-	XY windowSize = { 800, 600 };
-	auto mainWindow = createWindow(appTitle, SDL_WINDOW_RESIZABLE, windowSize);
+	auto mainWindow = createWindow(appTitle, SDL_WINDOW_RESIZABLE, XY(800, 600));
 	SDL_SetRenderDrawColor(mainWindow.render, 0x80, 0xA0, 0x60, 0xFF);
 
 	auto textures = loadTexture(dirImages~"People.png", mainWindow.render);
 	auto playerClip = clipTexture(textures, 2, 1);
-
-	SDL_GetWindowSize(mainWindow.window, &windowSize.x, &windowSize.y);
-	SDL_Rect rect = { w: mapTileSize, h: mapTileSize };
-	rect.x = (windowSize.x - rect.w) / 2;
-	rect.y = (windowSize.y - rect.h) / 2;
+	auto windowSize  = getWindowSize(mainWindow);
+	auto playerRectangle = calcRectangleAtCenter(windowSize, mapTileSize, mapTileSize);
 
 	// Main loop:
 	bool isRefreshNeeded = true;
@@ -33,7 +29,7 @@ void main()
 		if(isRefreshNeeded)
 		{
 			SDL_RenderClear(mainWindow.render);
-			SDL_RenderCopy(mainWindow.render, textures, &playerClip, &rect);
+			SDL_RenderCopy(mainWindow.render, textures, &playerClip, &playerRectangle);
 			isRefreshNeeded = false;
 		}
 
@@ -53,17 +49,18 @@ void main()
 					const XY
 						udelta = input.key.toMoveMap,
 						delta = udelta.toGfx;
-					rect.shift(delta);
+					playerRectangle.shift(delta);
 					break;
 
 				case SDL_WINDOWEVENT:
 					isRefreshNeeded = true;
 					// Re-center the image:
-					int w, h;
-					SDL_GetWindowSize(mainWindow.window, &w, &h);
-					rect.x += (w - windowSize.x) / 2;
-					rect.y += (h - windowSize.y) / 2;
-					windowSize = XY(w, h);
+					{
+						auto newSize = getWindowSize(mainWindow);
+						playerRectangle.x += (newSize.x - windowSize.x) / 2;
+						playerRectangle.y += (newSize.y - windowSize.y) / 2;
+						windowSize = newSize;
+					}
 					break;
 				
 				default: break;
