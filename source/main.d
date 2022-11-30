@@ -55,12 +55,10 @@ void main()
 				case SDL_WINDOWEVENT:
 					isRefreshNeeded = true;
 					// Re-center the image:
-					{
-						auto newSize = getWindowSize(mainWindow);
-						playerRectangle.x += (newSize.x - windowSize.x) / 2;
-						playerRectangle.y += (newSize.y - windowSize.y) / 2;
-						windowSize = newSize;
-					}
+					auto newSize = getWindowSize(mainWindow);
+					playerRectangle.x += (newSize.x - windowSize.x) / 2;
+					playerRectangle.y += (newSize.y - windowSize.y) / 2;
+					windowSize = newSize;
 					break;
 				
 				default: break;
