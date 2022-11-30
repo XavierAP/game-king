@@ -31,7 +31,7 @@ struct TextureResources
 
 /// Calculates how to split a texture columns and rows
 /// and returns the resulting rectangle at the top left.
-auto clipTexture(SDL_Texture* texture, int ncols, int nrows)
+auto clipTexture(SDL_Texture* texture, ushort ncols, ushort nrows)
 {
 	SDL_Rect clip;
 	SDL_QueryTexture(texture, null, null, &clip.w, &clip.h);

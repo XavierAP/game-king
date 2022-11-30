@@ -19,7 +19,6 @@ void main()
 	SDL_SetRenderDrawColor(mainWindow.render, 0x80, 0xA0, 0x60, 0xFF);
 
 	auto textures = loadTexture(dirImages~"People.png", mainWindow.render);
-
 	auto playerClip = clipTexture(textures, 2, 1);
 
 	SDL_Rect rect = { w: mapTileSize, h: mapTileSize };
