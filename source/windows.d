@@ -2,7 +2,7 @@ module windows;
 
 import scope_cleanup;
 import sdl_help;
-import xy;
+import pixel_xy;
 
 WindowResources createWindow(string title, SDL_WindowFlags flags, XY size,
 	XY position = XY(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED))

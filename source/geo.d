@@ -7,7 +7,7 @@ pure:
 import bindbc.sdl;
 
 import config;
-public import xy;
+public import pixel_xy;
 
 /// Translates from map to screen coordinates.
 XY toGfx(const ref XY tiles)
