@@ -3,9 +3,21 @@ Helper functions and types for the SDL library.
 */
 module sdl_help;
 
-public import bindbc.sdl;
+import scope_cleanup;
 
-import std.string: toStringz;
+public import bindbc.sdl;
+public import std.string: toStringz;
+
+ScopeCleanup loadLibSDL()
+{
+	loadSDL().expectEqual(sdlSupport, "initializing SDL", true);
+	return ScopeCleanup(delegate void() { unloadSDL(); });
+}
+ScopeCleanup loadLibSDLImage()
+{
+	loadSDLImage().expectEqual(sdlImageSupport, "initializing SDL_image library", true);
+	return ScopeCleanup(delegate void() { unloadSDLImage(); });
+}
 
 /**
 Helper function that checks a boolean

@@ -11,18 +11,17 @@ import windows;
 
 void main()
 {
-	loadSDL().expectEqual(sdlSupport, "initializing SDL", true);
-	loadSDLImage().expectEqual(sdlImageSupport, "initializing SDL_image library", true);
+	auto libSDL = loadLibSDL();
+	auto libSDLImage = loadLibSDLImage();
 
 	XY winSize = { 800, 600 };
-
 	auto mainWindow = createWindow(appTitle, SDL_WINDOW_RESIZABLE, winSize);
-	
-	// Background color:
-	SDL_SetRenderDrawColor(mainWindow.renderer, 0x80, 0xA0, 0x60, 0xFF);
+	SDL_SetRenderDrawColor(mainWindow.render, 0x80, 0xA0, 0x60, 0xFF);
 
-	// Create the player icon starting at the center of the window:
-	auto texPlayer = TextureClipbook(dirImages ~ "People.png", mainWindow.renderer, 2, 1);
+	auto textures = loadTexture(dirImages~"People.png", mainWindow.render);
+
+	auto playerClip = clipTexture(textures, 2, 1);
+
 	SDL_Rect rect = { w: mapTileSize, h: mapTileSize };
 	SDL_GetWindowSize(mainWindow.window, &rect.x, &rect.y);
 	rect.x = (rect.x - rect.w) / 2;
@@ -34,13 +33,13 @@ void main()
 	{
 		if(isRefreshNeeded)
 		{
-			SDL_RenderClear(mainWindow.renderer);
-			SDL_RenderCopy(mainWindow.renderer, texPlayer, texPlayer.clip(0,0), &rect);
+			SDL_RenderClear(mainWindow.render);
+			SDL_RenderCopy(mainWindow.render, textures, &playerClip, &rect);
 			isRefreshNeeded = false;
 		}
 
 		// Scene!
-		SDL_RenderPresent(mainWindow.renderer);
+		SDL_RenderPresent(mainWindow.render);
 
 		// Process input:
 		SDL_Event input;
