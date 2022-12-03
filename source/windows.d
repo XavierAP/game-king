@@ -2,7 +2,7 @@ module windows;
 
 import scope_cleanup;
 import sdl_help;
-import pixel_xy;
+import xy_pixel;
 
 struct WindowResources
 {

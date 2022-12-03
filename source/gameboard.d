@@ -1,6 +1,6 @@
 module gameboard;
 
-public import pixel_xy;
+public import xy_pixel;
 public import sdl_help;
 public import windows;
 
@@ -39,27 +39,27 @@ struct GameBoard
 			case SDL_SCANCODE_LEFT:
 			case SDL_SCANCODE_KP_4:
 			case SDL_SCANCODE_A:
-				player.shiftTiles(XY(-1, 0)); return;
+				player.shiftTile(-1, 0); return;
 			case SDL_SCANCODE_RIGHT:
 			case SDL_SCANCODE_KP_6:
 			case SDL_SCANCODE_D:
-				player.shiftTiles(XY( 1, 0)); return;
+				player.shiftTile( 1, 0); return;
 			case SDL_SCANCODE_UP:
 			case SDL_SCANCODE_KP_8:
 			case SDL_SCANCODE_W:
-				player.shiftTiles(XY( 0,-1)); return;
+				player.shiftTile( 0,-1); return;
 			case SDL_SCANCODE_DOWN:
 			case SDL_SCANCODE_KP_2:
 			case SDL_SCANCODE_S:
-				player.shiftTiles(XY( 0, 1)); return;
+				player.shiftTile( 0, 1); return;
 			case SDL_SCANCODE_KP_3:
-				player.shiftTiles(XY( 1, 1)); return;
+				player.shiftTile( 1, 1); return;
 			case SDL_SCANCODE_KP_9:
-				player.shiftTiles(XY( 1,-1)); return;
+				player.shiftTile( 1,-1); return;
 			case SDL_SCANCODE_KP_1:
-				player.shiftTiles(XY(-1, 1)); return;
+				player.shiftTile(-1, 1); return;
 			case SDL_SCANCODE_KP_7:
-				player.shiftTiles(XY(-1,-1)); return;
+				player.shiftTile(-1,-1); return;
 			default:
 				return;
 		}
@@ -67,7 +67,7 @@ struct GameBoard
 }
 
 private
-void shiftTiles(ref Rectangle piece, XY tileShift)
+void shiftTile(ref Rectangle piece, int right, int down)
 {
-	piece.shift(tileShift.multiplyBy(mapTileSize));
+	piece.shift(XY(right, down).multiplyBy(mapTileSize));
 }

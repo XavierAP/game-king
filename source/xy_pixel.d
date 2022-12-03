@@ -1,4 +1,4 @@
-module pixel_xy;
+module xy_pixel;
 
 public import bindbc.sdl: SDL_Point, SDL_Rect;
 public alias XY = SDL_Point;

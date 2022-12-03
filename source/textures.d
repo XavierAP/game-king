@@ -4,7 +4,7 @@ public import sdl_help;
 public import bindbc.sdl.image;
 
 import scope_cleanup;
-import pixel_xy;
+import xy_pixel;
 
 import std.exception: enforce;
 
