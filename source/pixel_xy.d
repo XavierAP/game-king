@@ -26,3 +26,15 @@ Rectangle calcRectangleAtCenter(XY totalSize, int width, int height)
 	ans.y = (totalSize.y - ans.h) / 2;
 	return ans;
 }
+
+struct XYChangeTracker
+{
+	XY last;
+
+	XY getChange(XY newXY)
+	{
+		auto ans = diff(newXY, last);
+		last = newXY;
+		return ans;
+	}
+}

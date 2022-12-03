@@ -6,7 +6,7 @@ pure:
 
 import bindbc.sdl;
 
-import config;
+public import config;
 public import pixel_xy;
 
 /// Translates from map to screen coordinates.

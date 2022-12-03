@@ -7,7 +7,7 @@ import pixel_xy;
 struct WindowResources
 {
 	SDL_Renderer* render;
-	SDL_Window* window;
+	SDL_Window* window; alias window this;
 	private XY previousWindowSize;
 	private ScopeCleanup cleanup;
 
@@ -22,22 +22,6 @@ struct WindowResources
 			SDL_DestroyRenderer(render);
 		});
 	}
-
-	XY getWindowSize()
-	{
-		XY size;
-		SDL_GetWindowSize(window, &size.x, &size.y);
-		return size;
-	}
-
-	/// since last time
-	XY getWindowSizeChange()
-	{
-		auto newSize = getWindowSize();
-		auto ans = diff(newSize, previousWindowSize);
-		previousWindowSize = newSize;
-		return ans;
-	}
 }
 
 WindowResources createWindow(string title, SDL_WindowFlags flags, XY size,
@@ -47,4 +31,11 @@ WindowResources createWindow(string title, SDL_WindowFlags flags, XY size,
 	auto render = SDL_CreateRenderer(window, -1, 0);
 	expect(window != null && render != null, "creating window "~title, true);
 	return WindowResources(window, render);
+}
+
+XY getSize(SDL_Window* window)
+{
+	XY size;
+	SDL_GetWindowSize(window, &size.x, &size.y);
+	return size;
 }
