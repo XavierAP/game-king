@@ -11,12 +11,12 @@ public import std.string: toStringz;
 ScopeCleanup loadLibSDL()
 {
 	loadSDL().expectEqual(sdlSupport, "initializing SDL", true);
-	return ScopeCleanup(delegate void() { unloadSDL(); });
+	return ScopeCleanup(wrapAsVoidDelegate!unloadSDL);
 }
 ScopeCleanup loadLibSDLImage()
 {
 	loadSDLImage().expectEqual(sdlImageSupport, "initializing SDL_image library", true);
-	return ScopeCleanup(delegate void() { unloadSDLImage(); });
+	return ScopeCleanup(wrapAsVoidDelegate!unloadSDLImage);
 }
 
 /**
