@@ -3,8 +3,8 @@ Game entry point and main processing loop.
 */
 module main;
 
+import config;
 import gameboard;
-import geo;
 import sdl_help;
 import textures;
 
@@ -16,7 +16,7 @@ void main()
 	auto window = createWindow(appTitle, SDL_WINDOW_RESIZABLE, XY(800, 600));
 	SDL_SetRenderDrawColor(window.render, 0x80, 0xA0, 0x60, 0xFF);
 
-	auto board = GameBoard(window, mapTileSize);
+	auto board = GameBoard(window);
 
 	auto textures = loadTexture(dirImages~"People.png", window.render);
 	auto playerClip = clipTexture(textures, 2, 1);
@@ -63,10 +63,7 @@ Command processEvents(ref GameBoard board)
 			case SDL_QUIT: return Command.quit;
 			
 			case SDL_KEYDOWN:
-				const XY
-					udelta = input.key.toMoveMap(),
-					delta = udelta.toGfx();
-				board.player.shift(delta);
+				board.onKeyPressed(input.key);
 				ans = Command.refresh;
 				break;
 
