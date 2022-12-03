@@ -7,10 +7,11 @@ public import windows;
 struct GameBoard
 {
 	SDL_Window* window;
-	XYChangeTracker windowSize;
 	Rectangle player;
+	private XYChangeTracker windowSize;
 
 	@disable this();
+
 	this(SDL_Window* window, int mapTileSize)
 	{
 		this.window = window;
@@ -19,9 +20,11 @@ struct GameBoard
 		this.player = calcRectangleAtCenter(size, mapTileSize, mapTileSize);
 	}
 
-	void reCenter(Rectangle piece)
+	void onWindowSizeChanged()
 	{
-		auto change = windowSize.getChange(window.getSize());
-		piece.shift(change.divideBy(2));
+		auto shift = windowSize.getChange(window.getSize())
+			.divideBy(2);
+		
+		player.shift(shift);
 	}
 }

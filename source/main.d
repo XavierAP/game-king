@@ -71,7 +71,7 @@ Command processEvents(ref GameBoard board)
 				break;
 
 			case SDL_WINDOWEVENT:
-				board.reCenter(board.player);
+				board.onWindowSizeChanged();
 				ans = Command.refresh;
 				break;
 			
