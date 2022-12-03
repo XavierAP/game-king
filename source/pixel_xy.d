@@ -6,16 +6,20 @@ public alias Rectangle = SDL_Rect;
 static assert(XY.init == XY(0,0));
 static assert(Rectangle.init == Rectangle(0,0,0,0));
 
+XY diff(XY lhs, XY rhs) { return XY(lhs.x - rhs.x, lhs.y - rhs.y); }
+
+XY divideBy(XY lhs, int divisor) { return XY(lhs.x / divisor, lhs.y / divisor); }
+
 /// Translation in 2D; mutates the caller by reference
 /// and also returns it.
-ref auto shift(return ref Rectangle moving, const ref XY delta)
+ref auto shift(return ref Rectangle moving, XY delta)
 {
 	moving.x += delta.x;
 	moving.y += delta.y;
 	return moving;
 }
 
-Rectangle calcRectangleAtCenter(const ref XY totalSize, int width, int height)
+Rectangle calcRectangleAtCenter(XY totalSize, int width, int height)
 {
 	Rectangle ans = { w: width, h: height };
 	ans.x = (totalSize.x - ans.w) / 2;
